@@ -1,4 +1,6 @@
-﻿using Microsoft.Extensions.Hosting;
+﻿using GrainInterfaces;
+using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 
 IHostBuilder builder = Host.CreateDefaultBuilder(args)
@@ -6,6 +8,15 @@ IHostBuilder builder = Host.CreateDefaultBuilder(args)
     {
         silo.UseLocalhostClustering()
             .ConfigureLogging(logging => logging.AddConsole());
+        
+        silo.AddStartupTask(
+            async (IServiceProvider services, CancellationToken cancellation) =>
+            {
+                var grainFactory = services.GetRequiredService<IGrainFactory>();
+                
+                var directorGrain = grainFactory.GetGrain<IDirectorGrain>(0);
+                await directorGrain.DoWork();
+            });
     })
     .UseConsoleLifetime();
 
