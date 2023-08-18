@@ -19,9 +19,15 @@ public class DirectorGrain : Grain, IDirectorGrain
     public override async Task OnActivateAsync(CancellationToken cancellationToken)
     {
         //Start Subscription Managers
-        _ = GrainFactory.GetGrain<ISubscriberManagerGrain>(0).DoWork();
-        _ = GrainFactory.GetGrain<ISubscriberManagerGrain>(1).DoWork();
+        _ = GrainFactory.GetGrain<ISubscriberManagerGrain>(0).DoWork("topic1", cancellationToken);
+        _ = GrainFactory.GetGrain<ISubscriberManagerGrain>(1).DoWork("topic2", cancellationToken);
 
         await base.OnActivateAsync(cancellationToken);
+    }
+
+    public override Task OnDeactivateAsync(DeactivationReason reason, CancellationToken cancellationToken)
+    {
+        _logger.LogInformation("DIRECTOR GRAIN HAS SHUT DOWN!!!!!! " + reason);
+        return base.OnDeactivateAsync(reason, cancellationToken);
     }
 }

@@ -2,5 +2,5 @@ namespace GrainInterfaces;
 
 public interface ISubscriberGrain : IGrainWithIntegerKey
 {
-    Task DoWork();
+    Task DoWork(string topic, CancellationToken cancellationToken);
 }
