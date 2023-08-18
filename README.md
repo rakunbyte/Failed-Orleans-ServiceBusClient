@@ -17,3 +17,6 @@ ProcessGrain -> Validate Message, build ccsV2 message, put on queue
 //ParentGrain manages SubscriberManagers
 //SubscriberManagers manage SubscriptionGrains
 //SubscriptionGrains get one subscription
+
+
+//Possibly wrap parent grain in a while loop, add is healthy method, call that every five minutes
