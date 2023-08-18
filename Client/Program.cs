@@ -16,8 +16,9 @@ await host.StartAsync();
 
 IClusterClient client = host.Services.GetRequiredService<IClusterClient>();
 
-IHelloGrain friend = client.GetGrain<IHelloGrain>(0);
-string response = await friend.SayHello("Hi friend!");
+//IHelloGrain friend = client.GetGrain<IHelloGrain>(0);
+//string response = await friend.SayHello("Hi friend!");
+var response = "dud";
 
 Console.WriteLine($"""
                    {response}
